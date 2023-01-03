@@ -12,7 +12,26 @@ namespace NetworkApp
         public static void RunServer()
         {
             IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddr = ipHost.AddressList[0];
+
+            int index = 1;
+            Console.WriteLine("\nAddresses at Host:");
+            foreach (var hostIp in ipHost.AddressList)
+            {
+                IPAddress ip;
+                ip = hostIp;
+                Console.WriteLine(index + ": " + ip.ToString());
+                index++;
+            }
+
+            Console.WriteLine("\nSelect address to listen on:");
+
+            //TODO: Add validation.
+            string selection = Console.ReadLine();
+            IPAddress ipAddr = ipHost.AddressList[(int.Parse(selection)) - 1];
+            Console.WriteLine("\nSelected IP to listen on: " + ipAddr.ToString());
+            Console.WriteLine("\nPress enter to continue...");
+            Console.ReadLine();
+            
             IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
             Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);

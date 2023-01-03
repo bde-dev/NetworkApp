@@ -26,10 +26,11 @@ namespace NetworkApp
                     Console.WriteLine(ip.ToString());
                 }
                 
-                Console.ReadLine();
-
-                IPAddress ipAddr = ipHost.AddressList[0];
+                Console.WriteLine("\nEnter IP Address to connect to:");
+                string IP = Console.ReadLine();
+                IPAddress ipAddr = IPAddress.Parse(IP);
                 IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
+
 
                 Console.WriteLine("\nCreating local socket...");
                 Socket sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
