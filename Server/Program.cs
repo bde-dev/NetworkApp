@@ -13,7 +13,8 @@ namespace Server
         static void Main(string[] args)
         {
             Console.WriteLine("Server");
-            NetworkApp.Server.RunServer();
+            NetworkApp.Server server= new NetworkApp.Server();
+            server.RunServer();
         }
     }
 }

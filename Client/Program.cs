@@ -13,7 +13,8 @@ namespace Client
         static void Main(string[] args)
         {
             Console.WriteLine("Client");
-            NetworkApp.Client.RunClient();
+            NetworkApp.Client client = new NetworkApp.Client();
+            client.RunClient();
         }
     }
 }

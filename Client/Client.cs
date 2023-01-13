@@ -9,7 +9,7 @@ namespace NetworkApp
 {
     class Client
     {
-        public static void RunClient()
+        public void RunClient()
         {
             try
             {
@@ -44,7 +44,12 @@ namespace NetworkApp
 
                     Console.WriteLine("Socket connected to -> {0}", sender.RemoteEndPoint.ToString());
 
-                    byte[] sendMessage = Encoding.ASCII.GetBytes("Test Client");
+                    Console.WriteLine("Type message to server, or press enter to send 'Test Client'");
+                    string input;
+                    input = Console.ReadLine();
+                    if (input == "" || input == null)
+                        input = "Test Client";
+                    byte[] sendMessage = Encoding.ASCII.GetBytes(input);
                     int byteSent = sender.Send(sendMessage);
 
                     byte[] recMessage = new byte[1024];

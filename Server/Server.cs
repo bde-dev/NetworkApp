@@ -9,7 +9,7 @@ namespace NetworkApp
 {
     class Server
     {
-        public static void RunServer()
+        public void RunServer()
         {
             IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
 
@@ -50,20 +50,26 @@ namespace NetworkApp
                 byte[] bytes = new byte[1024];
                 string data = null;
 
+                //RECEIVE DATA.
                 int numByte = client.Receive(bytes);
-
                 data += Encoding.ASCII.GetString(bytes, 0, numByte);
-
                 Console.WriteLine("Text received -> " + data);
-                byte[] message = Encoding.ASCII.GetBytes("Test Server");
 
-                client.Send(message);
+                //SEND DATA.
+                byte[] sendMessage = Encoding.ASCII.GetBytes("Test Server");
+                client.Send(sendMessage);
 
-                Console.WriteLine("\nClosing Connection...");
-                client.Shutdown(SocketShutdown.Both);
-                client.Close();
-                Console.WriteLine("Connection Closed\n");
+                //CLOSE CONNECTION.
+                CloseConnection(client);
             }
+        }
+
+        private void CloseConnection(Socket client)
+        {
+            Console.WriteLine("\nClosing Connection...");
+            client.Shutdown(SocketShutdown.Both);
+            client.Close();
+            Console.WriteLine("Connection Closed\n");
         }
     }
 }
