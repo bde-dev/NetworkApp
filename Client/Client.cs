@@ -26,10 +26,21 @@ namespace NetworkApp
                     Console.WriteLine(ip.ToString());
                 }
                 
-                Console.WriteLine("\nEnter IP Address to connect to:");
+                Console.WriteLine("\nEnter IP Address to connect to (leave blank and press enter for localhost):");
                 string IP = Console.ReadLine();
-                IPAddress ipAddr = IPAddress.Parse(IP);
-                IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
+                IPAddress ipAddr;
+                IPEndPoint localEndPoint;
+                if (IP == "")
+                {
+                    ipAddr = ipHost.AddressList[0];
+                    localEndPoint = new IPEndPoint(ipAddr, 11111);
+                }
+                else
+                {
+                    ipAddr = IPAddress.Parse(IP);
+                    localEndPoint = new IPEndPoint(ipAddr, 11111);
+                }
+                
 
 
                 Console.WriteLine("\nCreating local socket...");
@@ -44,6 +55,8 @@ namespace NetworkApp
 
                     Console.WriteLine("Socket connected to -> {0}", sender.RemoteEndPoint.ToString());
 
+
+                    //WHILE CONNECTED START.
                     Console.WriteLine("Type message to server, or press enter to send 'Test Client'");
                     string input;
                     input = Console.ReadLine();
@@ -57,6 +70,7 @@ namespace NetworkApp
                     int recByte = sender.Receive(recMessage);
                     Console.WriteLine("Message from server -> {0}", Encoding.ASCII.GetString(recMessage, 0, recByte));
 
+                    //WHILE CONNECTED END.
                     Console.WriteLine("Closing connection...");
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();

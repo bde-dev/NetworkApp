@@ -23,16 +23,30 @@ namespace NetworkApp
                 index++;
             }
 
-            Console.WriteLine("\nSelect address to listen on:");
+            Console.WriteLine("\nSelect address to listen on (leave blank and press enter for localhost):");
 
             //TODO: Add validation.
-            string selection = Console.ReadLine();
-            IPAddress ipAddr = ipHost.AddressList[(int.Parse(selection)) - 1];
-            Console.WriteLine("\nSelected IP to listen on: " + ipAddr.ToString());
+            string IP = Console.ReadLine();
+            IPAddress ipAddr;
+            IPEndPoint localEndPoint;
+
+            if (IP == "")
+            {
+                ipAddr = ipHost.AddressList[0];
+                localEndPoint = new IPEndPoint(ipAddr, 11111);
+                Console.WriteLine("\nSelected IP to listen on: localhost");
+            }
+            else
+            {
+                ipAddr = ipHost.AddressList[(int.Parse(IP)) - 1];
+                localEndPoint = new IPEndPoint(ipAddr, 11111);
+                Console.WriteLine("\nSelected IP to listen on: " + ipAddr.ToString());
+            }
+
+            
             Console.WriteLine("\nPress enter to continue...");
             Console.ReadLine();
             
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
             Socket listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
